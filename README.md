@@ -1,2 +1,3 @@
-# task-evreka
-Mini CRM – User Management Interface
+TASK EVREKA
+
+12.07.2025 - 14:50 start
