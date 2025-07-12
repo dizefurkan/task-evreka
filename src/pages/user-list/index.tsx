@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { faker } from "@faker-js/faker";
 import styled from "styled-components";
 import Pagination from "../../components/pagination";
@@ -47,14 +47,20 @@ const generateFakeUsers = (count: number) => {
 const fakeUsers = generateFakeUsers(5000);
 
 function UserList() {
-  const [pageSize, setPageSize] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const { totalPages, hasNextPage, hasPreviousPage, getPaginatedData } =
-    usePagination({
-      totalItems: fakeUsers.length,
-      itemsPerPage: pageSize,
-      currentPage,
-    });
+  const {
+    itemsPerPage: pageSize,
+    currentPage,
+    totalPages,
+    hasNextPage,
+    hasPreviousPage,
+    getPaginatedData,
+    setItemsPerPage: setPageSize,
+    setCurrentPage,
+  } = usePagination({
+    totalItems: fakeUsers.length,
+    itemsPerPage: 10,
+    currentPage: 1,
+  });
 
   const paginatedUsers = useMemo(
     () => getPaginatedData(fakeUsers),
@@ -82,7 +88,7 @@ function UserList() {
         pageSizeOptions={[10, 20]}
         onPageSizeChange={(size) => {
           setPageSize(size);
-          setCurrentPage(1); // Sayfa boyutu değiştiğinde sayfayı
+          setCurrentPage(1);
         }}
         onPageChange={(page) => {
           if (hasPreviousPage || hasNextPage) {

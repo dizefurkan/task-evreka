@@ -1,14 +1,24 @@
+import { useState } from "react";
+
 function usePagination(params: {
   totalItems: number;
   itemsPerPage: number;
   currentPage: number;
 }): {
+  itemsPerPage: number;
+
+  currentPage: number;
   totalPages: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
   getPaginatedData: (data: any[]) => any[];
+
+  setItemsPerPage: (size: number) => void;
+  setCurrentPage: (page: number) => void;
 } {
-  const { totalItems, itemsPerPage, currentPage } = params;
+  const { totalItems } = params;
+  const [itemsPerPage, setItemsPerPage] = useState(params.itemsPerPage || 10);
+  const [currentPage, setCurrentPage] = useState(params.currentPage || 1);
 
   if (totalItems < 0) {
     throw new Error("totalItems cannot be negative");
@@ -25,10 +35,14 @@ function usePagination(params: {
   const hasPreviousPage = currentPage > 1;
 
   return {
+    itemsPerPage,
+    currentPage,
     totalPages,
     hasNextPage,
     hasPreviousPage,
     getPaginatedData,
+    setItemsPerPage,
+    setCurrentPage,
   };
 
   function getPaginatedData(data: any[]) {
