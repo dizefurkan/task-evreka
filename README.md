@@ -11,7 +11,7 @@ Case: Mini CRM – User Management Interface
 - User can switch between Table View and Card View
   Include search or filtering functionality (you can manage filters via URL – bonus point!)
 - Add a toggle to switch between:
-- Paginated mode (10–20 items per page)
+- [x] Paginated mode (10–20 items per page)
 - All items rendered at once (note: ensure a smooth user experience)
 - The layout should use 100vh height
 - Each user should have a “Details” button that navigates to the detail page
