@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+export type UsePaginationReturnType = ReturnType<typeof usePagination>;
+
 function usePagination(params: {
   totalItems: number;
   itemsPerPage: number;

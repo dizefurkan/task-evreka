@@ -2,28 +2,31 @@ import React from "react";
 import * as S from "./styles";
 
 type Props = {
+  style?: React.CSSProperties;
+  className?: string;
+
   hasPrevious?: boolean;
   hasNext?: boolean;
 
-  pageSize?: number;
-  pageSizeOptions?: number[];
+  itemsPerPage?: number;
+  itemsPerPageOptions?: number[];
   currentPage?: number;
   totalPages: number;
   onPageChange?: (page: number) => void;
-  onPageSizeChange: (size: number) => void;
+  onItemsPerPageChange: (size: number) => void;
 };
 
 function Pagination(props: Props) {
-  const { hasNext, hasPrevious, currentPage, totalPages, pageSize } = props;
+  const { hasNext, hasPrevious, currentPage, totalPages, itemsPerPage } = props;
 
   return (
-    <S.PaginationContainer>
+    <S.PaginationContainer className={props.className} style={props.style}>
       <div>
         <select
-          value={pageSize}
-          onChange={(e) => props.onPageSizeChange(Number(e.target.value))}
+          value={itemsPerPage}
+          onChange={(e) => props.onItemsPerPageChange(Number(e.target.value))}
         >
-          {props.pageSizeOptions?.map((size) => (
+          {props.itemsPerPageOptions?.map((size) => (
             <option key={size} value={size}>
               {size} per page
             </option>

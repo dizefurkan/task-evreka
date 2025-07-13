@@ -8,7 +8,7 @@ export const PaginationContainer = styled.div`
 }
   .prev, .next {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: ${(props) => props.theme.colors.primary};
     color: white;
     border: none;
     border-radius: 5px;

@@ -1,13 +1,11 @@
-import styled from 'styled-components';
-import UserList from './pages/user-list';
+import UserList from "./pages/user-list";
 
 function App() {
-
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <UserList />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

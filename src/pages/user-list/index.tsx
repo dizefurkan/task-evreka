@@ -1,102 +1,53 @@
-import React, { useMemo } from "react";
-import { faker } from "@faker-js/faker";
-import styled from "styled-components";
-import Pagination from "../../components/pagination";
-import usePagination from "../../components/pagination/usePagination";
+import { useRef } from "react";
 
-const UserListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
+import DataTable from "../../components/datatable";
 
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  margin: 20px auto;
-`;
+import ViewOptions from "./view-options";
+import DisplayDataMode from "./display-data-mode";
+import AddNewUserButton from "./add-new-user";
+import Pagination from "./pagination";
 
-const User = styled.div`
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin: 5px 0;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-`;
+import * as S from "./styles";
+import useUserList from "./useUserList";
+import { UserListContext } from "./context";
 
-const roles = ["Admin", "Editor", "User", "Manager", "Guest"];
+export type UserListProps = {};
 
-// Belirli sayıda sahte kullanıcı oluştur
-const generateFakeUsers = (count: number) => {
-  const users = [];
+function UserList(props: UserListProps) {
+  const userListRef = useRef<HTMLDivElement>(null);
 
-  for (let i = 0; i < count; i++) {
-    const user = {
-      id: faker.string.uuid(),
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      role: faker.helpers.arrayElement(roles),
-      createdAt: faker.date.past().toISOString().split("T")[0], // YYYY-MM-DD formatında
-    };
-
-    users.push(user);
-  }
-
-  return users;
-};
-
-const fakeUsers = generateFakeUsers(5000);
-
-function UserList() {
-  const {
-    itemsPerPage: pageSize,
-    currentPage,
-    totalPages,
-    hasNextPage,
-    hasPreviousPage,
-    getPaginatedData,
-    setItemsPerPage: setPageSize,
-    setCurrentPage,
-  } = usePagination({
-    totalItems: fakeUsers.length,
-    itemsPerPage: 10,
-    currentPage: 1,
-  });
-
-  const paginatedUsers = useMemo(
-    () => getPaginatedData(fakeUsers),
-    [currentPage, pageSize]
-  );
+  const userListValues = useUserList(props);
+  const { view, users, displayDataMode } = userListValues;
 
   return (
-    <div>
-      <UserListContainer>
-        {paginatedUsers.map((user) => (
-          <User key={user.id}>
-            <div>{user.name}</div>
-            <div>{user.email}</div>
-            <div>{user.role}</div>
-            <div>{user.createdAt}</div>
-          </User>
-        ))}
-      </UserListContainer>
-      <Pagination
-        hasPrevious={hasPreviousPage}
-        hasNext={hasNextPage}
-        pageSize={pageSize}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        pageSizeOptions={[10, 20]}
-        onPageSizeChange={(size) => {
-          setPageSize(size);
-          setCurrentPage(1);
-        }}
-        onPageChange={(page) => {
-          if (hasPreviousPage || hasNextPage) {
-            setCurrentPage(page);
-          }
-        }}
-      />
-    </div>
+    <UserListContext.Provider value={userListValues}>
+      <S.PageSettingsContainer>
+        <DisplayDataMode />
+        <ViewOptions />
+        <AddNewUserButton />
+      </S.PageSettingsContainer>
+
+      {view === "table" && (
+        <DataTable
+          data={users}
+          columns={["index", "name", "email", "role", "createdAt"]}
+        />
+      )}
+      {view === "card" && (
+        <S.UserListContainer ref={userListRef}>
+          {users.map((user) => (
+            <S.User key={user.id}>
+              <div>{user.name}</div>
+              <div>{user.email}</div>
+              <div>{user.role}</div>
+              <div>{user.createdAt}</div>
+              <button>go to detail</button>
+            </S.User>
+          ))}
+        </S.UserListContainer>
+      )}
+      {displayDataMode === "pagination" && <Pagination />}
+    </UserListContext.Provider>
   );
 }
 
