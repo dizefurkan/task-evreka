@@ -24,9 +24,9 @@ Case: Mini CRM – User Management Interface
 - [x] Form Fields: Name, Email, Password, Role (Dropdown), Active (Checkbox)
 - [x] Add proper form validations (required fields, email format, password rules)
 - [ ] Bonus: You can manage the modal route via React Router
-- [ ] On form submission:
+- [x] On form submission:
   - [x] Add the user to the list
-  - [ ] Assign random latitude & longitude values to the user (random position?)
+  - [x] Assign random latitude & longitude values to the user
 
 3. User Detail Page
 

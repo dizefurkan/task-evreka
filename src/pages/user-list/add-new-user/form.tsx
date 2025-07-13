@@ -44,6 +44,10 @@ const useNewUserForm = (props: NewUserFormProps) => {
       email: values.email,
       role: values.role as Role,
       createdAt: new Date(Date.now()).toISOString(),
+      coordinates: {
+        latitude: faker.location.latitude(),
+        longitude: faker.location.longitude(),
+      },
     });
     clearValues();
     refreshUserList();

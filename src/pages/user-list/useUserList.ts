@@ -23,6 +23,10 @@ export type User = {
   email: string;
   role: Role;
   createdAt: string;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
 };
 
 export type Users = User[];
@@ -31,13 +35,17 @@ const generateFakeUsers = (count: number) => {
   const users = [];
 
   for (let i = 0; i < count; i++) {
-    const user = {
+    const user: User = {
       index: i + 1,
       id: faker.string.uuid(),
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      role: faker.helpers.arrayElement(roles),
+      role: faker.helpers.arrayElement(roles) as Role,
       createdAt: faker.date.anytime().toISOString(),
+      coordinates: {
+        latitude: faker.location.latitude(),
+        longitude: faker.location.longitude(),
+      },
     };
 
     users.push(user);
