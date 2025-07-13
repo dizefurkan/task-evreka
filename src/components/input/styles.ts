@@ -12,14 +12,20 @@ export const Input = styled.input<{
   border-radius: ${({ theme }) => theme.button.radius};
   border: 1px solid ${({ theme }) => theme.colors.border};
   background-color: ${({ theme }) => theme.colors.surface};
-  &,
+  color: ${({ $status, theme }) =>
+    $status === "error"
+      ? theme.colors.danger
+      : $status === "success"
+      ? theme.colors.success
+      : theme.colors.primaryText};
+
   &::placeholder {
     color: ${({ $status, theme }) =>
       $status === "error"
         ? theme.colors.danger
         : $status === "success"
         ? theme.colors.success
-        : theme.colors.primaryText};
+        : theme.colors.secondaryText};
   }
   transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
