@@ -25,6 +25,10 @@ export function useForm<T extends Record<string, any>>(params: {
     }, {} as Record<keyof T, { isValid: boolean; message: string }>)
   );
 
+  const clearValues = () => {
+    setValues(initialValues);
+  };
+
   const handleChange = (field: keyof T, value: any) => {
     setValues((prev) => ({ ...prev, [field]: value }));
 
@@ -72,6 +76,7 @@ export function useForm<T extends Record<string, any>>(params: {
     values,
     errors,
     handleChange,
+    clearValues,
     validateAll,
     setValues,
     setErrors,

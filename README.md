@@ -15,7 +15,7 @@ Case: Mini CRM – User Management Interface
   - [ ] All items rendered at once (note: ensure a smooth user experience)
 - The layout should use 100vh height
 - [x] Each user should have a “Details” button that navigates to the detail page
-- [ ] When a new user is added, it should persist across page refreshes (you may use
+- [x] When a new user is added, it should persist across page refreshes (you may use
       LocalStorage)
 
 2. New User Form (Inside a Modal)
@@ -25,7 +25,7 @@ Case: Mini CRM – User Management Interface
 - [x] Add proper form validations (required fields, email format, password rules)
 - [ ] Bonus: You can manage the modal route via React Router
 - [ ] On form submission:
-  - [ ] Add the user to the list
+  - [x] Add the user to the list
   - [ ] Assign random latitude & longitude values to the user (random position?)
 
 3. User Detail Page

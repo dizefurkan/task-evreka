@@ -13,4 +13,5 @@ type UserListContextType = {
   setView: React.Dispatch<React.SetStateAction<"table" | "card">>;
 
   pagination: UsePaginationReturnType;
+  refreshUserList: () => void;
 };

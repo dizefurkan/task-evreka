@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { UserListProps } from ".";
 import usePagination from "../../components/pagination/usePagination";
 
 import { faker } from "@faker-js/faker";
+
+export const LS_USERS = "users";
 
 export const Roles = {
   Admin: "Admin",
@@ -35,7 +37,7 @@ const generateFakeUsers = (count: number) => {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       role: faker.helpers.arrayElement(roles),
-      createdAt: faker.date.past().toISOString().split("T")[0], // YYYY-MM-DD formatında
+      createdAt: faker.date.anytime().toISOString(),
     };
 
     users.push(user);
@@ -46,10 +48,20 @@ const generateFakeUsers = (count: number) => {
 const fakeUsers = generateFakeUsers(5000);
 
 function useUserList(props: UserListProps) {
+  const [isNewUserLSDataAdded, setNewLSUserDataAdded] = useState(0); // it is just for trigger user
+  const [users, setUsers] = useState<Users>([]);
   const [view, setView] = useState<"table" | "card">("card");
   const [displayDataMode, setDisplayDataMode] = useState<"pagination" | "all">(
     "pagination"
   );
+
+  /**
+   * Call this when new LS Users Data Add
+   * it is for update the list without refresh the page
+   */
+  const refreshUserList = () => {
+    setNewLSUserDataAdded((prev) => ++prev);
+  };
 
   const pagination = usePagination({
     totalItems: fakeUsers.length,
@@ -59,16 +71,25 @@ function useUserList(props: UserListProps) {
 
   const { itemsPerPage: pageSize, currentPage, getPaginatedData } = pagination;
 
-  const users = useMemo(
-    () =>
-      displayDataMode === "pagination"
-        ? getPaginatedData(fakeUsers)
-        : fakeUsers,
-    [currentPage, pageSize, displayDataMode]
-  );
+  const getSavedUsersData = useCallback(() => {
+    const lsData = localStorage.getItem(LS_USERS) || "[]";
+    const parsedData = JSON.parse(lsData);
+
+    return parsedData;
+  }, []);
+
+  useEffect(() => {
+    const savedUsersData = getSavedUsersData();
+    const usersData = savedUsersData.concat(fakeUsers);
+
+    setUsers(
+      displayDataMode === "pagination" ? getPaginatedData(usersData) : usersData
+    );
+  }, [currentPage, pageSize, displayDataMode, isNewUserLSDataAdded]);
 
   return {
     users,
+    refreshUserList,
 
     view,
     setView,

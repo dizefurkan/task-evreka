@@ -1,4 +1,7 @@
-import { roles, Roles, type User } from "../useUserList";
+import { useContext } from "react";
+import { faker } from "@faker-js/faker";
+
+import { roles, Roles, type Role, type User } from "../useUserList";
 import Button from "../../../components/button";
 import Checkbox from "../../../components/checkbox";
 import Form from "../../../components/form";
@@ -6,13 +9,15 @@ import Input from "../../../components/input";
 import Select from "../../../components/select";
 import { validations } from "../../../helpers/validation";
 import { useForm } from "../../../hooks/useForm";
+import { UserListContext } from "../context";
 
 type NewUserFormProps = {
   onSubmit: (data: User) => void;
 };
 
-const useNewUserForm = () => {
-  const { values, errors, handleChange, validateAll } = useForm({
+const useNewUserForm = (props: NewUserFormProps) => {
+  const { refreshUserList } = useContext(UserListContext);
+  const { values, errors, handleChange, validateAll, clearValues } = useForm({
     startValidation: false,
     initialValues: {
       name: "",
@@ -32,7 +37,16 @@ const useNewUserForm = () => {
   const onSubmit = () => {
     const hasError = validateAll();
     if (hasError) return;
-    console.log("Gönderilen değerler:", values);
+    props.onSubmit({
+      index: -1,
+      id: faker.string.uuid(),
+      name: values.name,
+      email: values.email,
+      role: values.role as Role,
+      createdAt: new Date(Date.now()).toISOString(),
+    });
+    clearValues();
+    refreshUserList();
   };
 
   return {
@@ -43,8 +57,8 @@ const useNewUserForm = () => {
   };
 };
 
-const NewUserForm: React.FC<NewUserFormProps> = () => {
-  const { values, errors, handleChange, onSubmit } = useNewUserForm();
+const NewUserForm: React.FC<NewUserFormProps> = (props) => {
+  const { values, errors, handleChange, onSubmit } = useNewUserForm(props);
 
   return (
     <Form

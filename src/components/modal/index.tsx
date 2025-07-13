@@ -9,7 +9,7 @@ type Props = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  onOk: () => void;
+  onOk?: () => void;
 };
 
 function Modal(props: Props) {
