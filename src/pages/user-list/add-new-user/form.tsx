@@ -31,7 +31,6 @@ const useNewUserForm = () => {
 
   const onSubmit = () => {
     const hasError = validateAll();
-    console.log(values, hasError, errors);
     if (hasError) return;
     console.log("Gönderilen değerler:", values);
   };
@@ -44,7 +43,7 @@ const useNewUserForm = () => {
   };
 };
 
-const NewUserForm: React.FC<NewUserFormProps> = (props) => {
+const NewUserForm: React.FC<NewUserFormProps> = () => {
   const { values, errors, handleChange, onSubmit } = useNewUserForm();
 
   return (
