@@ -1,4 +1,7 @@
 import React from "react";
+
+import Button from "../button";
+
 import * as S from "./styles";
 
 type Props = {
@@ -34,13 +37,9 @@ function Pagination(props: Props) {
         </select>
       </div>
 
-      <button
-        disabled={!hasPrevious}
-        className="prev"
-        onClick={handlePreviousClick}
-      >
+      <Button disabled={!hasPrevious} onClick={handlePreviousClick}>
         Previous
-      </button>
+      </Button>
       <span className="page-info">
         Page{" "}
         <select
@@ -55,9 +54,9 @@ function Pagination(props: Props) {
         </select>{" "}
         of {totalPages}
       </span>
-      <button disabled={!hasNext} className="next" onClick={handleNextClick}>
+      <Button disabled={!hasNext} onClick={handleNextClick}>
         Next
-      </button>
+      </Button>
     </S.PaginationContainer>
   );
 
