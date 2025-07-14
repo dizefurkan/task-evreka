@@ -147,7 +147,7 @@ function ListPage() {
                             ref={registerChild}
                             style={{
                               ...style,
-                              // padding: 8,
+                              padding: 8,
                               boxSizing: "border-box",
                             }}
                           >
