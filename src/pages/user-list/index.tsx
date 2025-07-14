@@ -48,7 +48,7 @@ function UserList(props: UserListProps) {
           columns={[
             {
               label: "#",
-              render: (row, index) => (
+              render: (_, index) => (
                 <span>
                   {1 +
                     index +

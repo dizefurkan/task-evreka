@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { faker } from "@faker-js/faker";
 
 import { roles, Roles, type Role, type User } from "../useUserList";

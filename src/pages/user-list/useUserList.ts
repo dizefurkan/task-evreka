@@ -57,7 +57,7 @@ export const fakeUsers = generateFakeUsers(5000);
 
 type View = "table" | "card";
 
-function useUserList(props: UserListProps) {
+function useUserList(_: UserListProps) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isNewUserLSDataAdded, setNewLSUserDataAdded] = useState(0); // it's just for trigger user
   const [usersData, setUsersData] = useState<Users>([]);

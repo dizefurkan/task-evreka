@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router";
-import UserList from "./pages/user-list";
-import UserDetail from "./pages/user-detail";
+import { lazy } from "react";
+
+const UserList = lazy(() => import("./pages/user-list"));
+const UserDetail = lazy(() => import("./pages/user-detail"));
 
 function App() {
   return (
