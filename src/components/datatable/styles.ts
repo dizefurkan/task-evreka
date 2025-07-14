@@ -7,7 +7,7 @@ export const DataTableContainer = styled.div`
   border-radius: 8px;
 `;
 
-export const Table = styled.table`
+export const Table = styled.div`
   width: 100%;
   border-collapse: collapse;
 
@@ -17,9 +17,9 @@ export const Table = styled.table`
   font-size: 14px;
 `;
 
-export const TableHeader = styled.thead``;
+export const TableHeader = styled.div``;
 
-export const TableHeaderCell = styled.th`
+export const TableHeaderCell = styled.div`
   padding: 12px;
   text-align: left;
   border-bottom: 2px solid #ddd;

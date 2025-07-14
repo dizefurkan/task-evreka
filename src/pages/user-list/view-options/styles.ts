@@ -2,18 +2,18 @@ import styled from "styled-components";
 
 export const ViewOptionsContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  aling-items: center;
+  align-items: center;
 `;
 
 export const ViewOptionsIcon = styled.button<{
   $active?: boolean;
 }>`
   background-color: ${(props) =>
+    props.$active ? props.theme.colors.primaryText : props.theme.colors.border};
+  color: ${(props) =>
     props.$active
-      ? props.theme.colors.primaryText
-      : props.theme.colors.secondaryText};
-  color: ${(props) => props.theme.colors.surface};
+      ? props.theme.colors.surface
+      : props.theme.colors.primaryText};
 
   display: flex;
   align-items: center;

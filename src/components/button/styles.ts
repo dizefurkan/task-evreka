@@ -5,6 +5,7 @@ export const Button = styled.button<{
   $type: ButtonType;
   disabled?: boolean;
 }>`
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;

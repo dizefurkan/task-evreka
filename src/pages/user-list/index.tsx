@@ -20,8 +20,10 @@ function UserList(props: UserListProps) {
   return (
     <UserListContext.Provider value={userListValues}>
       <S.PageSettingsContainer>
-        <DisplayDataMode />
-        <ViewOptions />
+        <S.DisplayDataModeViewOptionsWrapper>
+          <DisplayDataMode />
+          <ViewOptions />
+        </S.DisplayDataModeViewOptionsWrapper>
         <AddNewUserButton />
       </S.PageSettingsContainer>
       <Filter />

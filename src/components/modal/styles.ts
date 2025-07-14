@@ -20,6 +20,11 @@ export const ModalContent = styled.div`
   position: relative;
   max-width: 500px;
   width: 100%;
+  box-sizing: border-box;
+
+  @media screen and (max-width: 540px) {
+    width: 90%;
+  }
 `;
 
 export const ModalFooter = styled.div`
