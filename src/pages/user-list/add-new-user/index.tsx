@@ -15,24 +15,15 @@ const AddNewUserButton = () => {
 
   useEffect(() => {
     const isParamsModalOpen = searchParams.get("isModalOpen");
-    if (isParamsModalOpen == "true") {
-      setIsModalOpen(true);
-    }
+    if (isParamsModalOpen == "true") setIsModalOpen(true);
   }, []);
-
-  useEffect(() => {
-    setSearchParams((searchParams) => {
-      searchParams.set("isModalOpen", "" + isModalOpen);
-      return searchParams;
-    });
-  }, [isModalOpen]);
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)}>Add New User</Button>
+      <Button onClick={() => toggleModal(true)}>Add User</Button>
       {isModalOpen &&
         createPortal(
-          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Modal isOpen={isModalOpen} onClose={() => toggleModal(false)}>
             <NewUserForm
               onSubmit={(user) => {
                 const lsSavedUsers = localStorage.getItem(LS_USERS);
@@ -45,7 +36,7 @@ const AddNewUserButton = () => {
                 const newData = savedUsers.concat(user);
                 localStorage.setItem(LS_USERS, JSON.stringify(newData));
 
-                setIsModalOpen(false);
+                toggleModal(false);
                 refreshUserList();
               }}
             />
@@ -54,6 +45,22 @@ const AddNewUserButton = () => {
         )}
     </>
   );
+
+  function toggleModal(open: boolean) {
+    if (!open) {
+      setSearchParams((searchParams) => {
+        searchParams.delete("isModalOpen");
+        return searchParams;
+      });
+    } else {
+      setSearchParams((searchParams) => {
+        searchParams.set("isModalOpen", "" + true);
+        return searchParams;
+      });
+    }
+
+    setIsModalOpen(open);
+  }
 };
 
 export default AddNewUserButton;
