@@ -30,7 +30,7 @@ Case: Mini CRM – User Management Interface
 
 3. User Detail Page
 
-- [ ] Route: /users/:id
-- [ ] Display
-- [ ] Selected user’s name and email
-- [ ] A map showing a marker at the user’s coordinates (with Leaflet map)
+- [x] Route: /users/:id
+- [x] Display
+  - [x] Selected user’s name and email
+  - [x] A map showing a marker at the user’s coordinates (with Leaflet map)
