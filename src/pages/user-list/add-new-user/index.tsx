@@ -1,13 +1,31 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
 
 import NewUserForm from "./form";
 import Modal from "../../../components/modal";
 import Button from "../../../components/button";
 import { LS_USERS, type Users } from "../useUserList";
+import { UserListContext } from "../context";
 
 const AddNewUserButton = () => {
+  const { refreshUserList } = useContext(UserListContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const isParamsModalOpen = searchParams.get("isModalOpen");
+    if (isParamsModalOpen == "true") {
+      setIsModalOpen(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    setSearchParams((searchParams) => {
+      searchParams.set("isModalOpen", "" + isModalOpen);
+      return searchParams;
+    });
+  }, [isModalOpen]);
 
   return (
     <>
@@ -28,6 +46,7 @@ const AddNewUserButton = () => {
                 localStorage.setItem(LS_USERS, JSON.stringify(newData));
 
                 setIsModalOpen(false);
+                refreshUserList();
               }}
             />
           </Modal>,

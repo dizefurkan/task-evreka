@@ -35,7 +35,10 @@ function Filter() {
           placeholder="Search for Name, email, role"
           value={searchKeyword}
           onChange={(e) => {
-            setSearchParams({ search: e.target.value });
+            setSearchParams((searchParams) => {
+              searchParams.set("search", e.target.value);
+              return searchParams;
+            });
             setSearchKeyword(e.target.value);
           }}
         />

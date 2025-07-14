@@ -104,7 +104,7 @@ function useUserList(props: UserListProps) {
 
   useEffect(() => {
     updateTotalItems(users.length);
-  }, [users, users.length, usersData]);
+  }, [users, users.length, usersData, isNewUserLSDataAdded]);
 
   const getSavedUsersData = useCallback(() => {
     const lsData = localStorage.getItem(LS_USERS) || "[]";
@@ -117,7 +117,7 @@ function useUserList(props: UserListProps) {
     const savedUsersData = getSavedUsersData();
     const usersData = savedUsersData.concat(fakeUsers);
     setUsersData(usersData);
-  }, []);
+  }, [isNewUserLSDataAdded]);
 
   return {
     searchKeyword,

@@ -9,14 +9,12 @@ import Input from "../../../components/input";
 import Select from "../../../components/select";
 import { validations } from "../../../helpers/validation";
 import { useForm } from "../../../hooks/useForm";
-import { UserListContext } from "../context";
 
 type NewUserFormProps = {
   onSubmit: (data: User) => void;
 };
 
 const useNewUserForm = (props: NewUserFormProps) => {
-  const { refreshUserList } = useContext(UserListContext);
   const { values, errors, handleChange, validateAll, clearValues } = useForm({
     startValidation: false,
     initialValues: {
@@ -50,7 +48,6 @@ const useNewUserForm = (props: NewUserFormProps) => {
       },
     });
     clearValues();
-    refreshUserList();
   };
 
   return {
