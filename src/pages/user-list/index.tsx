@@ -1,27 +1,38 @@
 import { useRef } from "react";
-
-import DataTable from "../../components/datatable";
+import { useNavigate } from "react-router";
 
 import ViewOptions from "./view-options";
 import DisplayDataMode from "./display-data-mode";
 import AddNewUserButton from "./add-new-user";
 import Pagination from "./pagination";
-
-import * as S from "./styles";
-import useUserList from "./useUserList";
-import { UserListContext } from "./context";
 import Filter from "./filter";
+
+import DataTable from "../../components/datatable";
 import EmptyState from "../../components/empty-state";
 import Button from "../../components/button";
+import UserCard from "../../components/user-card";
 
+import FaExternalLinkAlt from "../../assets/icons/FaExternalLinkAlt";
+
+import useUserList, { type User } from "./useUserList";
+import { UserListContext } from "./context";
+import * as S from "./styles";
+
+export const LS_VIEW = "view";
 export type UserListProps = {};
 
 function UserList(props: UserListProps) {
+  const navigate = useNavigate();
   const userListRef = useRef<HTMLDivElement>(null);
-
   const userListValues = useUserList(props);
-  const { view, users, displayDataMode, searchKeyword, setSearchKeyword } =
-    userListValues;
+  const {
+    view,
+    users,
+    displayDataMode,
+    searchKeyword,
+    setSearchKeyword,
+    pagination,
+  } = userListValues;
 
   return (
     <UserListContext.Provider value={userListValues}>
@@ -31,7 +42,85 @@ function UserList(props: UserListProps) {
         <AddNewUserButton />
       </S.PageSettingsContainer>
       <Filter />
-
+      {view === "table" && (
+        <DataTable<User>
+          data={users}
+          columns={[
+            {
+              label: "#",
+              render: (row, index) => (
+                <span>
+                  {1 +
+                    index +
+                    (pagination.currentPage - 1) * pagination.itemsPerPage}
+                </span>
+              ),
+              width: "70px",
+            },
+            {
+              label: "Name",
+              render: (row) => <strong>{row.name}</strong>,
+            },
+            {
+              label: "Email",
+              render: (row) => <a>{row.email}</a>,
+            },
+            {
+              label: "Role",
+              render: (row) => <span className="capitalize">{row.role}</span>,
+              width: "100px",
+            },
+            {
+              label: "Created",
+              render: (row) => (
+                <span>{new Date(row.createdAt).toLocaleDateString()}</span>
+              ),
+              width: "120px",
+            },
+            {
+              label: "",
+              width: "80px",
+              render: (row) => (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    marginRight: "12px",
+                  }}
+                >
+                  <Button
+                    type="link"
+                    style={{ width: "100px", fontSize: "16px" }}
+                    onClick={() => {
+                      navigate(`/users/${row.id}`);
+                    }}
+                  >
+                    <span style={{ width: "14px" }}>
+                      <FaExternalLinkAlt />
+                    </span>
+                  </Button>
+                </div>
+              ),
+            },
+          ]}
+        />
+      )}
+      {view === "card" && (
+        <S.UserListContainer ref={userListRef}>
+          {users.map((user) => (
+            <UserCard
+              tabIndex={0}
+              key={user.id}
+              style={{ width: "100%" }}
+              user={user}
+              onClick={() => {
+                navigate(`/users/${user.id}`);
+              }}
+            />
+          ))}
+        </S.UserListContainer>
+      )}
       {!users.length && (
         <EmptyState
           title={searchKeyword ? "No results found" : "No data available"}
@@ -54,25 +143,6 @@ function UserList(props: UserListProps) {
         </EmptyState>
       )}
 
-      {view === "table" && (
-        <DataTable
-          data={users}
-          columns={["index", "name", "email", "role", "createdAt"]}
-        />
-      )}
-      {view === "card" && (
-        <S.UserListContainer ref={userListRef}>
-          {users.map((user) => (
-            <S.User key={user.id}>
-              <div>{user.name}</div>
-              <div>{user.email}</div>
-              <div>{user.role}</div>
-              <div>{user.createdAt}</div>
-              <button>go to detail</button>
-            </S.User>
-          ))}
-        </S.UserListContainer>
-      )}
       {!!users.length && displayDataMode === "pagination" && <Pagination />}
     </UserListContext.Provider>
   );

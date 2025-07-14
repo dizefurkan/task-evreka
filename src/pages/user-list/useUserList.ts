@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { UserListProps } from ".";
+import { LS_VIEW, type UserListProps } from ".";
 import usePagination from "../../components/pagination/usePagination";
 
 import { faker } from "@faker-js/faker";
@@ -53,13 +53,17 @@ const generateFakeUsers = (count: number) => {
 
   return users;
 };
-const fakeUsers = generateFakeUsers(5000);
+export const fakeUsers = generateFakeUsers(5000);
+
+type View = "table" | "card";
 
 function useUserList(props: UserListProps) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isNewUserLSDataAdded, setNewLSUserDataAdded] = useState(0); // it's just for trigger user
   const [usersData, setUsersData] = useState<Users>([]);
-  const [view, setView] = useState<"table" | "card">("card");
+  const [view, setView] = useState<View>(
+    (localStorage.getItem(LS_VIEW) as View) || "table"
+  );
   const [displayDataMode, setDisplayDataMode] = useState<"pagination" | "all">(
     "pagination"
   );
@@ -127,7 +131,10 @@ function useUserList(props: UserListProps) {
     refreshUserList,
 
     view,
-    setView,
+    setView: (view: "table" | "card") => {
+      setView(view);
+      localStorage.setItem(LS_VIEW, view);
+    },
     displayDataMode,
     setDisplayDataMode,
 

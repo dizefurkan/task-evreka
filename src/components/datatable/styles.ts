@@ -17,11 +17,7 @@ export const Table = styled.table`
   font-size: 14px;
 `;
 
-export const TableHeader = styled.thead`
-  background-color: #f5f5f5;
-  color: #333;
-  font-weight: bold;
-`;
+export const TableHeader = styled.thead``;
 
 export const TableHeaderCell = styled.th`
   padding: 12px;
@@ -33,11 +29,11 @@ export const TableHeaderCell = styled.th`
   }
 `;
 
-export const TableBody = styled.tbody`
+export const TableBody = styled.div`
   background-color: #fff;
 `;
 
-export const TableRow = styled.tr`
+export const TableRow = styled.div`
   &:nth-child(even) {
     background-color: #f9f9f9;
   }
@@ -46,8 +42,8 @@ export const TableRow = styled.tr`
   }
 `;
 
-export const TableCell = styled.td`
-  padding: 12px;
+export const TableCell = styled.div`
+  padding: 12px 8px;
   border-bottom: 1px solid #ddd;
   text-align: left;
   cursor: pointer;

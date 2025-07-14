@@ -1,40 +1,56 @@
 import React from "react";
 import * as S from "./styles";
 
-type Props = {
-  data: any[];
-  columns: string[];
+type Column<T> = {
+  label: React.ReactNode;
+  width?: string;
+  render: (row: T, index: number) => React.ReactNode;
+};
+
+type Props<T> = {
+  data: T[];
+  columns: Column<T>[];
 
   footer?: React.ReactNode;
   header?: React.ReactNode;
 
-  onRowClick?: (row: any) => void;
-  onColumnClick?: (column: string) => void;
-  rowClassName?: string;
-  columnClassName?: string;
+  onRowClick?: (row: T) => void;
+  onColumnClick?: (column: Column<T>) => void;
 };
 
-function DataTable(props: Props) {
+function DataTable<T>(props: Props<T>) {
+  const gridTemplateColumns = props.columns
+    .map((col) => col.width || "1fr")
+    .join(" ");
+
+  const gridStyle = {
+    display: "grid",
+    gridTemplateColumns,
+  };
+
   return (
     <S.DataTableContainer>
       <S.Table>
-        {props.header && <S.TableHeader>{props.header}</S.TableHeader>}
+        <S.TableHeader style={gridStyle}>
+          {props.columns.map((col, i) => (
+            <S.TableHeaderCell key={i}>{col.label}</S.TableHeaderCell>
+          ))}
+        </S.TableHeader>
         <S.TableBody>
           {props.data.map((row, rowIndex) => (
             <S.TableRow
               key={rowIndex}
-              className={props.rowClassName}
+              style={gridStyle}
               onClick={() => props.onRowClick && props.onRowClick(row)}
             >
               {props.columns.map((column, colIndex) => (
                 <S.TableCell
                   key={colIndex}
-                  className={props.columnClassName}
                   onClick={() =>
                     props.onColumnClick && props.onColumnClick(column)
                   }
                 >
-                  {row[column]}
+                  {column.render(row, rowIndex)}
                 </S.TableCell>
               ))}
             </S.TableRow>

@@ -23,24 +23,3 @@ export const UserListContainer = styled.div`
   border-radius: 10px;
   margin: 20px auto;
 `;
-
-export const User = styled.div`
-  & > * {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  & > *:hover {
-    overflow: visible;
-    text-overflow: unset;
-    white-space: normal;
-  }
-
-  overflow: hidden;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin: 5px 0;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-`;

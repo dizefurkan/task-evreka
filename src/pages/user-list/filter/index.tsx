@@ -1,22 +1,21 @@
 import { useContext, useEffect } from "react";
+import { useSearchParams } from "react-router";
+
 import Input from "../../../components/input";
+import Form from "../../../components/form";
+
 import { UserListContext } from "../context";
 
 import * as S from "./styles";
-import Form from "../../../components/form";
-import { useLocation, useParams, useSearchParams } from "react-router";
 
 function Filter() {
   const [searchParams, setSearchParams] = useSearchParams(undefined);
 
   const { searchKeyword, setSearchKeyword, pagination } =
     useContext(UserListContext);
-  const location = useLocation();
-  const params = useParams();
 
   useEffect(() => {
     setSearchKeyword(searchParams.get("search") || "");
-    console.log(location, params);
   }, []);
 
   return (
