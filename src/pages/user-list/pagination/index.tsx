@@ -4,6 +4,8 @@ import { UserListContext } from "../context";
 
 const Pagination = () => {
   const {
+    users,
+    displayDataMode,
     pagination: {
       hasNextPage,
       hasPreviousPage,
@@ -18,6 +20,10 @@ const Pagination = () => {
 
   return (
     <StickyPagination
+      style={{
+        display:
+          !!users.length && displayDataMode === "pagination" ? "flex" : "none",
+      }}
       hasPrevious={hasPreviousPage}
       hasNext={hasNextPage}
       itemsPerPage={itemsPerPage}

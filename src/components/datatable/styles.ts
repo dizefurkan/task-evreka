@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const DataTableContainer = styled.div`
   width: 100%;
   overflow-x: auto;
-  margin: 20px 0;
   border-radius: 8px;
 `;
 

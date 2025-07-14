@@ -11,11 +11,11 @@ import { UserListContext } from "./context";
 import * as S from "./styles";
 
 export const LS_VIEW = "view";
+export const LS_DISPLAY_DATA_MODE = "displayDataMode";
 export type UserListProps = {};
 
 function UserList(props: UserListProps) {
   const userListValues = useUserList(props);
-  const { users, displayDataMode } = userListValues;
 
   return (
     <UserListContext.Provider value={userListValues}>
@@ -28,7 +28,7 @@ function UserList(props: UserListProps) {
       </S.PageSettingsContainer>
       <Filter />
       <List />
-      {!!users.length && displayDataMode === "pagination" && <Pagination />}
+      <Pagination />
     </UserListContext.Provider>
   );
 }

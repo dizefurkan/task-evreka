@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { LS_VIEW, type UserListProps } from ".";
+import { LS_DISPLAY_DATA_MODE, LS_VIEW, type UserListProps } from ".";
 import usePagination from "../../components/pagination/usePagination";
 
 import { faker } from "@faker-js/faker";
@@ -56,6 +56,7 @@ const generateFakeUsers = (count: number) => {
 export const fakeUsers = generateFakeUsers(5000);
 
 type View = "table" | "card";
+type DisplayDataMode = "pagination" | "all";
 
 function useUserList(_: UserListProps) {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -64,8 +65,9 @@ function useUserList(_: UserListProps) {
   const [view, setView] = useState<View>(
     (localStorage.getItem(LS_VIEW) as View) || "table"
   );
-  const [displayDataMode, setDisplayDataMode] = useState<"pagination" | "all">(
-    "pagination"
+  const [displayDataMode, setDisplayDataMode] = useState<DisplayDataMode>(
+    (localStorage.getItem(LS_DISPLAY_DATA_MODE) as DisplayDataMode) ||
+      "pagination"
   );
 
   /**
@@ -136,7 +138,10 @@ function useUserList(_: UserListProps) {
       localStorage.setItem(LS_VIEW, view);
     },
     displayDataMode,
-    setDisplayDataMode,
+    setDisplayDataMode: (mode: "pagination" | "all") => {
+      setDisplayDataMode(mode);
+      localStorage.setItem(LS_DISPLAY_DATA_MODE, mode);
+    },
 
     pagination,
   };

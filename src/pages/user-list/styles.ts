@@ -5,20 +5,20 @@ export const PageSettingsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
+  padding: 20px 0;
 
   @media screen and (max-width: 540px) {
-    // flex-direction: column;
   }
 `;
 
 export const DisplayDataModeViewOptionsWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   width: 100%;
+  flex-direction: row;
   gap: 12px;
 
   @media screen and (max-width: 540px) {
+    flex-direction: column;
     justify-content: space-between;
   }
 `;
@@ -45,5 +45,5 @@ export const UserListContainer = styled.div`
   grid-gap: 10px;
 
   border-radius: 10px;
-  margin: 20px auto;
+  padding-top: 0;
 `;

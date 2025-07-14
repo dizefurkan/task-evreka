@@ -5,4 +5,5 @@ export const FilterWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  padding-bottom: 8px;
 `;
