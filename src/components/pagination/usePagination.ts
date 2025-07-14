@@ -7,6 +7,7 @@ function usePagination(params: {
   itemsPerPage: number;
   currentPage: number;
 }): {
+  totalItems: number;
   itemsPerPage: number;
 
   currentPage: number;
@@ -17,10 +18,11 @@ function usePagination(params: {
 
   setItemsPerPage: (size: number) => void;
   setCurrentPage: (page: number) => void;
+  updateTotalItems: (totalCount: number) => void;
 } {
-  const { totalItems } = params;
   const [itemsPerPage, setItemsPerPage] = useState(params.itemsPerPage || 10);
   const [currentPage, setCurrentPage] = useState(params.currentPage || 1);
+  const [totalItems, setTotalItems] = useState(0);
 
   if (totalItems < 0) {
     throw new Error("totalItems cannot be negative");
@@ -36,7 +38,15 @@ function usePagination(params: {
   const hasNextPage = currentPage < totalPages;
   const hasPreviousPage = currentPage > 1;
 
+  const updateTotalItems = (count: number) => {
+    setTotalItems(count);
+    if (currentPage > Math.ceil(count / itemsPerPage)) {
+      setCurrentPage(1);
+    }
+  };
+
   return {
+    totalItems,
     itemsPerPage,
     currentPage,
     totalPages,
@@ -45,6 +55,7 @@ function usePagination(params: {
     getPaginatedData,
     setItemsPerPage,
     setCurrentPage,
+    updateTotalItems,
   };
 
   function getPaginatedData(data: any[]) {

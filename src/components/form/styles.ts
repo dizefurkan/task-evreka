@@ -5,6 +5,7 @@ export const FormItem = styled.label`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
 
   &:has(input[required]) > span:first-of-type::after,
   &:has(input[required]) > span:first-of-type::after,

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { UserListProps } from ".";
 import usePagination from "../../components/pagination/usePagination";
 
@@ -56,8 +56,9 @@ const generateFakeUsers = (count: number) => {
 const fakeUsers = generateFakeUsers(5000);
 
 function useUserList(props: UserListProps) {
-  const [isNewUserLSDataAdded, setNewLSUserDataAdded] = useState(0); // it is just for trigger user
-  const [users, setUsers] = useState<Users>([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [isNewUserLSDataAdded, setNewLSUserDataAdded] = useState(0); // it's just for trigger user
+  const [usersData, setUsersData] = useState<Users>([]);
   const [view, setView] = useState<"table" | "card">("card");
   const [displayDataMode, setDisplayDataMode] = useState<"pagination" | "all">(
     "pagination"
@@ -72,12 +73,38 @@ function useUserList(props: UserListProps) {
   };
 
   const pagination = usePagination({
-    totalItems: fakeUsers.length,
+    totalItems: 0,
     itemsPerPage: 10,
     currentPage: 1,
   });
+  const { itemsPerPage, currentPage, getPaginatedData, updateTotalItems } =
+    pagination;
 
-  const { itemsPerPage: pageSize, currentPage, getPaginatedData } = pagination;
+  const searchQuery = searchKeyword.trim().toLowerCase();
+  const users = useMemo(() => {
+    if (searchKeyword) {
+      return usersData.filter((user) => {
+        return (
+          user.name.toLowerCase().includes(searchQuery) ||
+          user.email.toLowerCase().includes(searchQuery) ||
+          user.role.toLowerCase().includes(searchQuery)
+        );
+      });
+    }
+
+    return usersData;
+  }, [
+    usersData,
+    searchKeyword,
+    currentPage,
+    itemsPerPage,
+    displayDataMode,
+    isNewUserLSDataAdded,
+  ]);
+
+  useEffect(() => {
+    updateTotalItems(users.length);
+  }, [users, users.length, usersData]);
 
   const getSavedUsersData = useCallback(() => {
     const lsData = localStorage.getItem(LS_USERS) || "[]";
@@ -89,14 +116,14 @@ function useUserList(props: UserListProps) {
   useEffect(() => {
     const savedUsersData = getSavedUsersData();
     const usersData = savedUsersData.concat(fakeUsers);
-
-    setUsers(
-      displayDataMode === "pagination" ? getPaginatedData(usersData) : usersData
-    );
-  }, [currentPage, pageSize, displayDataMode, isNewUserLSDataAdded]);
+    setUsersData(usersData);
+  }, []);
 
   return {
-    users,
+    searchKeyword,
+    setSearchKeyword,
+
+    users: displayDataMode === "pagination" ? getPaginatedData(users) : users,
     refreshUserList,
 
     view,

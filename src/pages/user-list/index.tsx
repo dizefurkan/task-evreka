@@ -10,6 +10,9 @@ import Pagination from "./pagination";
 import * as S from "./styles";
 import useUserList from "./useUserList";
 import { UserListContext } from "./context";
+import Filter from "./filter";
+import EmptyState from "../../components/empty-state";
+import Button from "../../components/button";
 
 export type UserListProps = {};
 
@@ -17,7 +20,8 @@ function UserList(props: UserListProps) {
   const userListRef = useRef<HTMLDivElement>(null);
 
   const userListValues = useUserList(props);
-  const { view, users, displayDataMode } = userListValues;
+  const { view, users, displayDataMode, searchKeyword, setSearchKeyword } =
+    userListValues;
 
   return (
     <UserListContext.Provider value={userListValues}>
@@ -26,6 +30,29 @@ function UserList(props: UserListProps) {
         <ViewOptions />
         <AddNewUserButton />
       </S.PageSettingsContainer>
+      <Filter />
+
+      {!users.length && (
+        <EmptyState
+          title={searchKeyword ? "No results found" : "No data available"}
+          description={
+            searchKeyword
+              ? "Try adjusting your filters or searching with different keywords."
+              : "There’s currently no data to display."
+          }
+          icon={searchKeyword ? "🔍" : "📄"}
+        >
+          {!!searchKeyword && (
+            <Button
+              onClick={() => {
+                setSearchKeyword("");
+              }}
+            >
+              Clear Search
+            </Button>
+          )}
+        </EmptyState>
+      )}
 
       {view === "table" && (
         <DataTable
@@ -46,7 +73,7 @@ function UserList(props: UserListProps) {
           ))}
         </S.UserListContainer>
       )}
-      {displayDataMode === "pagination" && <Pagination />}
+      {!!users.length && displayDataMode === "pagination" && <Pagination />}
     </UserListContext.Provider>
   );
 }

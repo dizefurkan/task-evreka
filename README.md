@@ -9,7 +9,7 @@ Case: Mini CRM – User Management Interface
 - [x] Display a list of users with the following fields: Name, Email, Role, Creation Date
 - [x] Use at least 5.000 fake users (you can use faker.js or any fake data tool)
 - [x] User can switch between Table View and Card View
-- [ ] Include search or filtering functionality (you can manage filters via URL – bonus point!)
+- [x] Include search or filtering functionality (you can manage filters via URL – bonus point!)
 - [x] Add a toggle to switch between:
   - [x] Paginated mode (10–20 items per page)
   - [ ] All items rendered at once (note: ensure a smooth user experience)

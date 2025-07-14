@@ -5,7 +5,7 @@ export const PageSettingsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px;
+  margin: 20px 0;
 `;
 
 export const StickyPagination = styled(Pagination)`
@@ -20,8 +20,6 @@ export const UserListContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
 
-  padding: 20px;
-  background-color: #f0f0f0;
   border-radius: 10px;
   margin: 20px auto;
 `;

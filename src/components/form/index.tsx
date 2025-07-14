@@ -24,14 +24,14 @@ const FormItem = ({
   children,
   status,
 }: {
-  label: string;
+  label?: string;
   help?: string;
   status?: FormItemStatusType;
   children: React.ReactNode;
 }) => {
   return (
     <S.FormItem>
-      <S.FormLabel $status={status}>{label}</S.FormLabel>
+      {!!label && <S.FormLabel $status={status}>{label}</S.FormLabel>}
       {children}
       {!!help && <S.FormHelpText $status={status}>{help}</S.FormHelpText>}
     </S.FormItem>
